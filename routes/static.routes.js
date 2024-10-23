@@ -1,9 +1,19 @@
 import { Router } from "express";
+import { authentication } from "../middleware/auth.middleware.js";
 
-const routes = Router();
+const router = Router();
 
-routes.get("/", (req, res) => {
+router.get("/",authentication, (req, res) => {
   return res.render("Home", {});
 });
 
-export default routes;
+router.get("/signup", (req,res) => {
+    return res.render("signUp");
+})
+
+router.get("/signin", (req,res) => {
+    return res.render("signIn");
+})
+
+router
+export default router;

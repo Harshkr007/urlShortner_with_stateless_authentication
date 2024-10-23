@@ -4,7 +4,7 @@ import { nanoid } from "nanoid";
 // Handle the creation of shortened URLs
 const handleCreateUrl = async (req, res) => {
   const {redirectURL} = req.body;
-
+  const user = req.user; // Get user from req.user instead of req.body
 
   if (!redirectURL) {
     return res.status(400).json({ error: "URL is not present" });
@@ -12,7 +12,9 @@ const handleCreateUrl = async (req, res) => {
 
   try {
     // Check if the URL already exists
-    const existUrl = await URL.findOne({ redirectURL: redirectURL });
+    const existUrl = await URL.findOne({ 
+      createdBy : user._id,
+      redirectURL: redirectURL });
 
     if (existUrl) {
       return res.status(201).render("Home", {
@@ -25,21 +27,24 @@ const handleCreateUrl = async (req, res) => {
     const newUrl = await URL.create({
       shortId: newId,
       redirectURL: redirectURL,
+      createdBy: user._id, // This will now work correctly
       visitHistory: [],
     });
+    console.log(newUrl);
 
     res.status(201).render("Home", {
       Id: newUrl.shortId,
     });
   } catch (error) {
-    res.status(500).json({ error: "Failed to create URL" });
+    res.status(500).json({ 
+      error: error,
+      message: "Failed to create the url"
+    });
   }
 };
-
 // Handle redirection from short URL to original URL
 const handleUrlPath = async (req, res) => {
   const Id = req.params.Id;
-  console.log(Id);
 
   try {
     const urlObject = await URL.findOneAndUpdate(
@@ -59,8 +64,11 @@ const handleUrlPath = async (req, res) => {
 };
 
 const handleGetAllUrl = async (req, res) => {
+      const user = req.user;
   try {
-      const urls = await URL.find();
+      const urls = await URL.find({
+        createdBy :user._id,
+      });
       res.json(urls);
   } catch (error) {
       res.status(500).json({ error: "Failed to fetch URLs" });
