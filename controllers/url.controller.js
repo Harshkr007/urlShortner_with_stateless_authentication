@@ -4,14 +4,13 @@ import { nanoid } from "nanoid";
 // Handle the creation of shortened URLs
 const handleCreateUrl = async (req, res) => {
   const {redirectURL} = req.body;
-  const user = req.user; // Get user from req.user instead of req.body
+  const user = req.user; 
 
   if (!redirectURL) {
     return res.status(400).json({ error: "URL is not present" });
   }
 
   try {
-    // Check if the URL already exists
     const existUrl = await URL.findOne({ 
       createdBy : user._id,
       redirectURL: redirectURL });
@@ -27,7 +26,7 @@ const handleCreateUrl = async (req, res) => {
     const newUrl = await URL.create({
       shortId: newId,
       redirectURL: redirectURL,
-      createdBy: user._id, // This will now work correctly
+      createdBy: user._id, 
       visitHistory: [],
     });
     console.log(newUrl);
@@ -42,7 +41,7 @@ const handleCreateUrl = async (req, res) => {
     });
   }
 };
-// Handle redirection from short URL to original URL
+
 const handleUrlPath = async (req, res) => {
   const Id = req.params.Id;
 

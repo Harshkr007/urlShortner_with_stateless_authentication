@@ -6,7 +6,6 @@ const handleCreateUser = async (req,res) => {
     const {userName,email,password} = req.body;
 
     const existUser = await User.findOne({
-        userName : userName,
         email : email,
     });
 
@@ -23,6 +22,7 @@ const handleCreateUser = async (req,res) => {
             password : password,
         });
         res.status(201).render("signIn", {
+            userId : newUser._id,
             Message: "User created successfully"
           });
 
