@@ -1,14 +1,11 @@
-// ./public/main.js
-
-// Wait for the DOM to fully load before attaching event listeners
 document.addEventListener("DOMContentLoaded", () => {
     const getAllUrlsButton = document.querySelector(".getallurl");
     const urlListBlock = document.querySelector(".url-list");
   
-    // Attach event listener to the 'Get All URLs' button
+   
     getAllUrlsButton.addEventListener("click", async () => {
       try {
-        const response = await fetch("/url/urls"); // Corrected route to fetch all URLs
+        const response = await fetch("/url/urls"); 
         if (!response.ok) {
           throw new Error("Failed to fetch URLs");
         }
@@ -19,7 +16,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   
-    // Function to render the list of URLs dynamically
     const renderUrlList = (urlList) => {
       if (!urlList || urlList.length === 0) {
         urlListBlock.innerHTML = "<p>No URLs available.</p>";

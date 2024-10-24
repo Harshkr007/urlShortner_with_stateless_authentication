@@ -1,9 +1,12 @@
 import express from "express";
-import { handleCreateUser, handleSignInUser } from "../controllers/user.controller.js";
+import { handleCreateUser, handleSignInUser,handleSignOutUser } from "../controllers/user.controller.js";
 
-const router = express.Router(); // Call the Router function
+const router = express.Router(); 
 
 router.post('/',handleCreateUser);
 
-router.post('/signin', handleSignInUser);  // Corrected spelling to 'signin'
+router.post('/signin', handleSignInUser);  
+
+router.post('/signout', handleSignOutUser); 
+
 export default router;

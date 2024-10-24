@@ -15,5 +15,4 @@ router.get("/signin", (req,res) => {
     return res.render("signIn");
 })
 
-router
 export default router;

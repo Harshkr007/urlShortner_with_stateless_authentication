@@ -29,7 +29,6 @@ const handleCreateUrl = async (req, res) => {
       createdBy: user._id, 
       visitHistory: [],
     });
-    console.log(newUrl);
 
     res.status(201).render("Home", {
       Id: newUrl.shortId,
